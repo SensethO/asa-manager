@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import type { LogLine, ProfileRuntime, ServerProfile } from '../../../shared/types.js';
 import { api } from '../api.js';
+import { useT } from '../i18n.js';
 
 interface Props {
   profile: ServerProfile;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
+  const t = useT();
   const [pending, setPending] = useState<string | null>(null);
   const [autoScroll, setAutoScroll] = useState(true);
   const logRef = useRef<HTMLDivElement>(null);
@@ -93,7 +95,7 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
   return (
     <>
       <div className="panel">
-        <h3>Actions</h3>
+        <h3>{t('Actions')}</h3>
         <p className="hint">
           L'arret et le redemarrage diffusent les preavis configures dans l'onglet Planification avant de couper.
         </p>
@@ -105,7 +107,7 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
             disabled={running || busy || locked}
             onClick={() => void startWithCheck(false)}
           >
-            Demarrer
+            {t('Demarrer')}
           </button>
 
           <button
@@ -113,7 +115,7 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
             disabled={!running || locked}
             onClick={() => run('stop', () => api.stop(profile.id, false))}
           >
-            Arreter (avec preavis)
+            {t('Arreter (avec preavis)')}
           </button>
 
           <button
@@ -121,7 +123,7 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
             disabled={!running || locked}
             onClick={() => run('stop-now', () => api.stop(profile.id, true))}
           >
-            Arreter maintenant
+            {t('Arreter maintenant')}
           </button>
 
           <button
@@ -129,7 +131,7 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
             disabled={!running || locked}
             onClick={() => run('restart', () => api.restart(profile.id, false))}
           >
-            Redemarrer
+            {t('Redemarrer')}
           </button>
 
           {status === 'stopping' && (
@@ -196,7 +198,7 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
                 Mettre a jour
               </button>
               <button type="button" disabled={locked} onClick={() => void startWithCheck(true)}>
-                Demarrer quand meme
+                {t('Demarrer quand meme')}
               </button>
               <button type="button" onClick={() => setGate(null)}>
                 Annuler
@@ -219,15 +221,15 @@ export function Dashboard({ profile, runtime, logs, canEdit, onError }: Props) {
       </div>
 
       <div className="panel">
-        <h3>Etat</h3>
+        <h3>{t('Etat')}</h3>
         <div className="stats" style={{ marginTop: 12 }}>
-          <Stat label="Joueurs" value={running ? `${runtime?.playersOnline ?? '—'} / ${profile.maxPlayers}` : '—'} />
-          <Stat label="Duree de fonctionnement" value={uptime} />
+          <Stat label={t('Joueurs')} value={running ? `${runtime?.playersOnline ?? '—'} / ${profile.maxPlayers}` : '—'} />
+          <Stat label={t('Duree de fonctionnement')} value={uptime} />
           <Stat label="PID" value={runtime?.pid ? String(runtime.pid) : '—'} />
-          <Stat label="Build installe" value={installedBuild ?? '—'} />
-          <Stat label="Build publie" value={checked ? (latestBuild ?? 'indetermine') : 'non verifie'} />
-          <Stat label="Carte" value={profile.map} />
-          <Stat label="Ports jeu / requete / RCON" value={`${profile.gamePort} / ${profile.queryPort} / ${profile.rconPort}`} />
+          <Stat label={t('Build installe')} value={installedBuild ?? '—'} />
+          <Stat label={t('Build publie')} value={checked ? (latestBuild ?? t('indetermine')) : t('non verifie')} />
+          <Stat label={t('Carte')} value={profile.map} />
+          <Stat label={t('Ports jeu / requete / RCON')} value={`${profile.gamePort} / ${profile.queryPort} / ${profile.rconPort}`} />
         </div>
       </div>
 

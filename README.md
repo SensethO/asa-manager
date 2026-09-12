@@ -2,6 +2,39 @@
 
 Outil de gestion de serveurs dédiés **ARK: Survival Ascended**, inspiré d'[ASADedicatedManager](https://asadedicatedmanager.eu/). Application web locale : un service Node qui pilote les serveurs, et une interface React consultée dans le navigateur.
 
+*Interface disponible en **français** et en **anglais** — bascule FR / EN en bas de la barre latérale.*
+
+## Installer
+
+```bash
+git clone https://github.com/SensethO/asa-manager.git
+cd asa-manager
+npm install
+npm run build
+```
+
+Puis `Lancer-Gestionnaire-ASA.bat`, et ouvrir <http://127.0.0.1:8477>.
+
+Node 24 requis. Le premier lancement crée le compte administrateur.
+
+> **Le service écoute `127.0.0.1` et doit y rester.** Il démarre, arrête et met
+> à jour des serveurs de jeu, et réécrit leurs fichiers de configuration.
+> Atteins-le par Bureau à distance ou par tunnel SSH, jamais en ouvrant le
+> port 8477. Voir la section *Sécurité* plus bas.
+
+## Le plugin qui l'accompagne
+
+Huit onglets — Créatures, Joueurs, Niveaux sauvages, Piles, Élevage,
+Invocation, Wiki, Réglages stratégiques — s'appuient sur
+**[AsaQoL](https://github.com/SensethO/ark-asa-qol)**, un plugin serveur
+AsaApi. Sans lui, ils s'éteignent proprement et le reste continue de
+fonctionner.
+
+Installation du plugin : [français](https://github.com/SensethO/ark-asa-qol/blob/main/docs/installation.md)
+· [English](https://github.com/SensethO/ark-asa-qol/blob/main/docs/installation.en.md)
+
+---
+
 ---
 
 ## Ce que fait l'outil

@@ -23,6 +23,8 @@ import { SpawnPanel } from './components/SpawnPanel.js';
 import { WikiPanel } from './components/WikiPanel.js';
 import { StrategicPanel } from './components/StrategicPanel.js';
 import { UsersPanel } from './components/UsersPanel.js';
+import { LangSwitch } from './components/LangSwitch.js';
+import { useT } from './i18n.js';
 
 const TABS = [
   { id: 'dashboard', label: "Vue d'ensemble" },
@@ -75,6 +77,7 @@ export function App() {
 }
 
 function Manager({ auth, onSignedOut }: { auth: AuthState; onSignedOut: () => void }) {
+  const t = useT();
   const currentUser = auth.session!.user;
   const canEdit = currentUser.role !== 'viewer';
   const isAdmin = currentUser.role === 'admin';
@@ -249,6 +252,7 @@ function Manager({ auth, onSignedOut }: { auth: AuthState; onSignedOut: () => vo
             </button>
           )}
 
+          <LangSwitch />
           <AccountMenu user={currentUser} onSignedOut={onSignedOut} />
         </div>
       </aside>
@@ -277,7 +281,7 @@ function Manager({ auth, onSignedOut }: { auth: AuthState; onSignedOut: () => vo
         {view === 'users' && (
           <>
             <div className="main-header">
-              <h2>Comptes utilisateurs</h2>
+              <h2>{t('Comptes utilisateurs')}</h2>
             </div>
             <div className="content">
               <UsersPanel currentUser={currentUser} />
@@ -289,8 +293,8 @@ function Manager({ auth, onSignedOut }: { auth: AuthState; onSignedOut: () => vo
           <div className="empty">
             <p>
               {canEdit
-                ? 'Selectionnez un profil, ou creez-en un pour commencer.'
-                : 'Aucun profil a afficher.'}
+                ? t('Selectionnez un profil, ou creez-en un pour commencer.')
+                : t('Aucun profil a afficher.')}
             </p>
           </div>
         )}
@@ -310,7 +314,7 @@ function Manager({ auth, onSignedOut }: { auth: AuthState; onSignedOut: () => vo
                   className={`tab ${tab === entry.id ? 'active' : ''}`}
                   onClick={() => setTab(entry.id)}
                 >
-                  {entry.label}
+                  {t(entry.label)}
                 </button>
               ))}
             </nav>
@@ -318,7 +322,9 @@ function Manager({ auth, onSignedOut }: { auth: AuthState; onSignedOut: () => vo
             <div className="content">
               {!canEdit && (
                 <div className="message error">
-                  Votre compte est en consultation seule : toute action modifiante sera refusee par le service.
+                  {t(
+                    'Votre compte est en consultation seule : toute action modifiante sera refusee par le service.',
+                  )}
                 </div>
               )}
 
